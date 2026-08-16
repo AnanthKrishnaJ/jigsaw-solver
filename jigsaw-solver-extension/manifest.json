@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Jigsaw Planet Auto Solver",
+  "version": "3.0",
+  "description": "Instantly solves Jigsaw Planet puzzles from the extension toolbar popup.",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["*://*.jigsawplanet.com/*"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.jigsawplanet.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ]
+}

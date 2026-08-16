@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+        
+        body {
+            width: 320px;
+            margin: 0;
+            padding: 0;
+            background: #111827;
+            color: #f8fafc;
+            font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .header-title {
+            text-align: center;
+            padding: 12px 0 4px 0;
+        }
+
+        .title-main {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(to right, #f472b6, #c084fc, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2px;
+        }
+        
+        .title-sub {
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            letter-spacing: 1px;
+        }
+
+        .gif-showcase {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 140px;
+            margin: 10px 0;
+        }
+
+        .dance-gif {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            /* mix-blend-mode: screen is best for removing black backgrounds on dark themes. */
+            /* If the gif has a white background, screen will keep it white. */
+            mix-blend-mode: screen; 
+            filter: contrast(1.1);
+            animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        /* Utility class to swap blend mode via JS if needed for white backgrounds */
+        .blend-multiply {
+            mix-blend-mode: multiply !important;
+            filter: contrast(1.2) brightness(0.9) !important;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .content {
+            padding: 0 16px 20px 16px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(45deg) translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+        }
+        
+        .btn-primary:hover::after {
+            transform: rotate(45deg) translateY(-100%);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+        .btn-subtext {
+            font-size: 11px;
+            font-weight: 500;
+            opacity: 0.9;
+            font-family: -apple-system, sans-serif;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #a78bfa;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .custom-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .time-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+            padding: 10px 12px;
+            color: #ffffff;
+            font-family: 'Fredoka', inherit;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .time-input:focus {
+            border-color: #f472b6;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(244, 114, 182, 0.3), inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .time-input::placeholder {
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-secondary:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .status-box {
+            display: none;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .status-box.error {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-title">
+        <div class="title-main">Jigsaw Magic</div>
+        <div class="title-sub">★ AUTO-SOLVER ★</div>
+    </div>
+
+    <!-- Centered GIF Showcase -->
+    <div class="gif-showcase">
+        <img id="dancing-girl-gif" class="dance-gif" src="dance1.gif" alt="Dancing Anime Girl">
+    </div>
+
+    <div class="content">
+        <button id="btn-solve-elapsed" class="btn-primary">
+            <span>✨ Instant Solve</span>
+            <span class="btn-subtext">Uses your current elapsed time</span>
+        </button>
+
+        <div class="section-title">
+            <span style="font-size: 16px;">⏱️</span> Custom Finish Time
+        </div>
+        <div class="custom-row">
+            <input type="text" id="custom-time-input" class="time-input" placeholder="mm:ss (e.g. 02:30)" />
+            <button id="btn-solve-custom" class="btn-secondary">GO!</button>
+        </div>
+
+        <div id="status-box" class="status-box"></div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
